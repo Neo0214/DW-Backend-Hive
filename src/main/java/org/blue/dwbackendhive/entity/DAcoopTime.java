@@ -9,6 +9,6 @@ public class DAcoopTime {
     private long firstPersonId;
     private long secondPersonId;
     private String type;
-    private int time;
+    private int timeCol;
     private List<Long> movieId;
 }

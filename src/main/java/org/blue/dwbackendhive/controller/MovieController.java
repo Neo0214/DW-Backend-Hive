@@ -1,4 +1,6 @@
 package org.blue.dwbackendhive.controller;
+import org.blue.dwbackendhive.dto.NumDto;
+import org.blue.dwbackendhive.dto.ScoreDto;
 import org.blue.dwbackendhive.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +17,36 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    // 获取某年所有电影的数量
-    @GetMapping("/movie-count-by-year")
-    public int getMovieCountByYear(@RequestParam int year) {
-        return movieService.getMovieCountByYear(year);
-    }
 
     // 获取某年某月电影的数量
-    @GetMapping("/movie-count-by-month")
-    public int getMovieCountByMonth(@RequestParam int year, @RequestParam int month) {
+    @GetMapping("/byTime/count/yearMonth")
+    public NumDto getMovieCountByMonth(@RequestParam int year, @RequestParam int month) {
         return movieService.getMovieCountByMonth(year, month);
     }
+    @GetMapping("/byTime/count/yearMonthDay")
+    public NumDto getMovieCountByDateRange(@RequestParam String start,
+                                        @RequestParam String end) {
+        return movieService.getMovieCountByDateRange(start, end);
+    }
+    @GetMapping("/byTime/count/yearSeason")
+    public NumDto getMovieCountByQuarter(@RequestParam int year, @RequestParam int season) {
+        return movieService.getMovieCountByYearAndQuarter(year, season);
+    }
+    @GetMapping("/byMovieName/count/format")
+    public NumDto getMovieVersionCountByTitle(@RequestParam String name) {
+        return movieService.getMovieVersionCountByTitle(name);
+    }
+    @GetMapping("/director/dirmovie")
+    public NumDto getMovieCountByDirector(@RequestParam String directorName) {
+        return movieService.getMovieCountByDirector(directorName);
+    }
+    @GetMapping("/byActor/count/movie")
+    public NumDto getMovieCountByActor(@RequestParam String actorName, @RequestParam String isStarring) {
+        return movieService.getMovieCountByActor(actorName, isStarring);
+    }
+    @GetMapping("/byComment/score")
+    public ScoreDto getMoviesByScore(@RequestParam double score) {
+        return movieService.getMoviesByScore(score);
+    }
+
 }

@@ -10,9 +10,9 @@ public class HiveTableService {
     private JdbcTemplate jdbcTemplate;
 
     public void createTables() {
+       /*
         // 1. 创建 Movie 表
-        // 1. 创建 Movie 表
-        /*String createMovieTable = """
+        String createMovieTable = """
         CREATE TABLE IF NOT EXISTS movie (
             movie_id BIGINT,
             title STRING,
@@ -83,7 +83,7 @@ public class HiveTableService {
             first_person_id BIGINT,
             second_person_id BIGINT,
             type VARCHAR(2),
-            time INT,
+            time_col INT,
             movie_id ARRAY<BIGINT>
         ) 
         ROW FORMAT DELIMITED
@@ -98,7 +98,7 @@ public class HiveTableService {
             first_person_id BIGINT,
             second_person_id BIGINT,
             type VARCHAR(2),
-            time INT,
+            time_col INT,
             movie_id ARRAY<BIGINT>
         ) 
         ROW FORMAT DELIMITED
@@ -115,9 +115,51 @@ public class HiveTableService {
         jdbcTemplate.execute(createActTable);
         jdbcTemplate.execute(createAAcoopTimeTable);
         jdbcTemplate.execute(createDAcoopTimeTable);
+        String filePath ="/user/hive/warehouse";
 
+        String loadProduct = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/product2.csv", "product"
+        );
+        jdbcTemplate.execute(loadProduct);
+
+        String loadPerson = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/Person.csv", "person"
+        );
+        jdbcTemplate.execute(loadPerson);
+
+        String loadAAcoop = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/AAcoop_time.csv", "aacoop_time"
+        );
+        jdbcTemplate.execute(loadAAcoop);
+
+        String loadAct = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/act2.csv", "act"
+        );
+        jdbcTemplate.execute(loadAct);
+
+        String loadDacoop = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/DAcoop_time.csv", "dacoop_time"
+        );
+        jdbcTemplate.execute(loadDacoop);
+
+        String loadDirect = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/direct2.csv", "direct"
+        );
+        jdbcTemplate.execute(loadDirect);
+
+        String loadMovie = String.format(
+                "LOAD DATA INPATH '%s' INTO TABLE %s",
+                filePath+"/mergedmovie1234.csv", "movie"
+        );
+        jdbcTemplate.execute(loadMovie);
+        System.out.println("数据导入成功！");
         //jdbcTemplate.execute("TRUNCATE TABLE aacoop_time");
         System.out.println("All tables created successfully.");*/
-
     }
 }
