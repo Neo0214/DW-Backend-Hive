@@ -2,9 +2,7 @@ package org.blue.dwbackendhive.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.blue.dwbackendhive.dto.ScoreDto;
 
-import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -32,6 +30,7 @@ public interface MovieMapper {
                                  @Param("endYear") int endYear,
                                  @Param("endMonth") int endMonth,
                                  @Param("endDay") int endDay);
+
     @Select("SELECT COUNT(*) FROM movie WHERE year = #{year} AND month BETWEEN #{startMonth} AND #{endMonth}")
     int getMovieCountByYearAndQuarter(@Param("year") int year,
                                       @Param("startMonth") int startMonth,
@@ -82,5 +81,12 @@ public interface MovieMapper {
     Map<String, Object> getMostCooperativeDA();
     @Select("SELECT COUNT(*) FROM movie WHERE type = #{typeName}")
     int countMoviesByType(@Param("typeName") String typeName);
+
+    @Select("SELECT COUNT(DISTINCT m.movie_id) " +
+            "FROM movie m " +
+            "JOIN act a ON m.movie_id = a.movie_id " +
+            "JOIN person p ON a.person_id = p.person_id " +
+            "WHERE p.name = #{actorName} " )
+    int countMoviesByActor(@Param("actorName") String actorName);
 
 }

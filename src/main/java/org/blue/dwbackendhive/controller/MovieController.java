@@ -1,6 +1,5 @@
 package org.blue.dwbackendhive.controller;
 import org.blue.dwbackendhive.dto.NumDto;
-import org.blue.dwbackendhive.dto.ScoreDto;
 import org.blue.dwbackendhive.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,9 +55,12 @@ public class MovieController {
         return movieService.getMostCooperativeDA();
     }
     @GetMapping("/byTypeName/count")
-    public NumDto getMovieCountByType(@RequestParam String typeName) {
-        return movieService.getMovieCountByType(typeName);
+    public NumDto getMovieCountByType(@RequestParam String name) {
+        return movieService.getMovieCountByType('"'+name+'"');
 
     }
-
+    @GetMapping("/actor-count")
+    public NumDto getMoviesCountByActor(@RequestParam String actorName) {
+        return movieService.getMoviesByActor(actorName);
+    }
 }

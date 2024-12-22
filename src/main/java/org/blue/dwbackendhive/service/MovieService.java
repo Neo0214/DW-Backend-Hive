@@ -1,11 +1,8 @@
 package org.blue.dwbackendhive.service;
 import org.blue.dwbackendhive.dto.NumDto;
-import org.blue.dwbackendhive.dto.ScoreDto;
 import org.blue.dwbackendhive.mapper.MovieMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MovieService {
@@ -154,5 +151,15 @@ public class MovieService {
 
         // 构造返回的响应
         return new NumDto((double) timeTaken /1000,count);
+    }
+    public NumDto getMoviesByActor(String actorName) {
+        long startTime = System.currentTimeMillis();
+        int count =movieMapper.countMoviesByActor(actorName);
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+
+        // 构造返回的响应
+        return new NumDto((double) timeTaken /1000,count);
+
     }
 }
