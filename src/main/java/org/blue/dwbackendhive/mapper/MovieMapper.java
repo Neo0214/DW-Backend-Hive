@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Select;
 import org.blue.dwbackendhive.dto.ScoreDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MovieMapper {
@@ -55,8 +56,31 @@ public interface MovieMapper {
             "AND a.id_starring = #{isLead}")
     int getMovieCountByActorAndLeadStatus(String actorName, String isLead);
 
-    @Select("SELECT m.title " +
+    @Select("SELECT COUNT(DISTINCT m.movie_id) " +
             "FROM movie m " +
             "WHERE m.grade >= #{score}")
-    List<ScoreDto.Name> getMoviesByScore(double score);
+    int getMoviesByScore(double score);@Mapper
+
+
+        // 查询合作次数最多的一组演员
+    @Select("""
+    SELECT first_person_id, second_person_id, SUM(time_col) AS total_coop_time
+    FROM AAcoop_time
+    GROUP BY first_person_id, second_person_id
+    ORDER BY total_coop_time DESC
+    LIMIT 1
+    """)
+    Map<String, Object> getMostCooperativeActors();
+
+    @Select("""
+    SELECT first_person_id, second_person_id, SUM(time_col) AS total_coop_time
+    FROM DAcoop_time
+    GROUP BY first_person_id, second_person_id
+    ORDER BY total_coop_time DESC
+    LIMIT 1
+    """)
+    Map<String, Object> getMostCooperativeDA();
+    @Select("SELECT COUNT(*) FROM movie WHERE type = #{typeName}")
+    int countMoviesByType(@Param("typeName") String typeName);
+
 }

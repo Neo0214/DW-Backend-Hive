@@ -18,7 +18,6 @@ public class MovieController {
     }
 
 
-    // 获取某年某月电影的数量
     @GetMapping("/byTime/count/yearMonth")
     public NumDto getMovieCountByMonth(@RequestParam int year, @RequestParam int month) {
         return movieService.getMovieCountByMonth(year, month);
@@ -34,7 +33,7 @@ public class MovieController {
     }
     @GetMapping("/byMovieName/count/format")
     public NumDto getMovieVersionCountByTitle(@RequestParam String name) {
-        return movieService.getMovieVersionCountByTitle(name);
+        return movieService.getMovieVersionCountByTitle('"'+name+'"');
     }
     @GetMapping("/director/dirmovie")
     public NumDto getMovieCountByDirector(@RequestParam String directorName) {
@@ -45,8 +44,21 @@ public class MovieController {
         return movieService.getMovieCountByActor(actorName, isStarring);
     }
     @GetMapping("/byComment/score")
-    public ScoreDto getMoviesByScore(@RequestParam double score) {
+    public NumDto getMoviesByScore(@RequestParam double score) {
         return movieService.getMoviesByScore(score);
+    }
+    @GetMapping("/coop/aa")
+    public NumDto getMostCooperativeActors() {
+        return movieService.getMostCooperativeActors();
+    }
+    @GetMapping("/coop/da")
+    public NumDto getMostCooperativeDA() {
+        return movieService.getMostCooperativeDA();
+    }
+    @GetMapping("/byTypeName/count")
+    public NumDto getMovieCountByType(@RequestParam String typeName) {
+        return movieService.getMovieCountByType(typeName);
+
     }
 
 }

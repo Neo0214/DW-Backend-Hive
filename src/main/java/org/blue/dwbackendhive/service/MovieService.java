@@ -26,7 +26,7 @@ public class MovieService {
         int count =movieMapper.countMoviesByMonth(year, month);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
     public NumDto getMovieCountByDateRange(String startDate, String endDate) {
         // 调用 Mapper 查询数据
@@ -45,7 +45,7 @@ public class MovieService {
         int count =movieMapper.getMovieCountByDateRange(startYear, startMonth,startDay, endYear, endMonth, endDay);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
     public NumDto getMovieCountByYearAndQuarter(int year, int quarter) {
         // 根据季度选择对应的月份范围
@@ -77,7 +77,7 @@ public class MovieService {
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
         // 调用 Mapper 查询数据
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
     public NumDto getMovieVersionCountByTitle(String title) {
         // 根据电影名称获取 movie_id
@@ -92,7 +92,7 @@ public class MovieService {
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
         // 查询并返回该电影的版本数
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
     public NumDto getMovieCountByDirector(String directorName) {
 
@@ -100,7 +100,7 @@ public class MovieService {
         int count= movieMapper.getMovieCountByDirector(directorName);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
 
     public NumDto getMovieCountByActor(String actorName,String isStarring) {
@@ -108,13 +108,13 @@ public class MovieService {
         int count= movieMapper. getMovieCountByActorAndLeadStatus(actorName,isStarring);
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
-        return new NumDto(elapsedTime, count);
+        return new NumDto((double) elapsedTime /1000, count);
     }
-    public ScoreDto getMoviesByScore(double score) {
+    public NumDto getMoviesByScore(double score) {
         long startTime = System.currentTimeMillis();
 
         // 获取电影列表
-        List<ScoreDto.Name> movies = movieMapper.getMoviesByScore(score);
+        int count = movieMapper.getMoviesByScore(score);
 
         long endTime = System.currentTimeMillis();
 
@@ -122,6 +122,37 @@ public class MovieService {
         long timeTaken = endTime - startTime;
 
         // 构造返回的响应
-        return new ScoreDto(timeTaken,movies.size(), movies);
+        return new NumDto((double) timeTaken /1000,count);
+    }
+    public NumDto  getMostCooperativeActors() {
+        long startTime = System.currentTimeMillis();
+
+        movieMapper.getMostCooperativeActors().get("total_coop_time");
+        // 计算查询所用的时间（秒）
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+
+        // 构造返回的响应
+        return new NumDto((double) timeTaken /1000,0);
+    }
+    public NumDto  getMostCooperativeDA() {
+        long startTime = System.currentTimeMillis();
+
+        movieMapper.getMostCooperativeDA().get("total_coop_time");
+        // 计算查询所用的时间（秒）
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+
+        // 构造返回的响应
+        return new NumDto((double) timeTaken /1000,0);
+    }
+    public NumDto getMovieCountByType(String typeName) {
+        long startTime = System.currentTimeMillis();
+        int count =movieMapper.countMoviesByType(typeName);
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+
+        // 构造返回的响应
+        return new NumDto((double) timeTaken /1000,count);
     }
 }
